@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl3c8sf37q8uo"]
+
+[ext_resource type="PackedScene" uid="uid://b24m70pirmw2r" path="res://imports/Rock3.blend" id="1_06c6t"]
+[ext_resource type="Shader" uid="uid://dib04womwijbb" path="res://import-support/shaders/RockMoss.tres" id="2_guikn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xa5jl"]
+render_priority = 0
+shader = ExtResource("2_guikn")
+
+[node name="Rock3" instance=ExtResource("1_06c6t")]
+
+[node name="Rock" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_xa5jl")

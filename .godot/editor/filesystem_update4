@@ -1,1 +1,4 @@
-res://world.tscn
+res://World.tscn
+res://import-support/shaders/RockMoss.tres
+res://PlayerPawn.tscn
+res://terrain/scenes/Rock1.tscn

@@ -1,3 +1,33 @@
-[gd_scene format=3 uid="uid://dojtk3qdajddy"]
+[gd_scene load_steps=5 format=3 uid="uid://dojtk3qdajddy"]
+
+[ext_resource type="Script" path="res://PlayerPawn.gd" id="1_tx2j5"]
+[ext_resource type="Script" path="res://PawnCamera.gd" id="2_xbtcc"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_uuxef"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fd36y"]
+radius = 0.4
+height = 1.9
 
 [node name="PlayerPawn" type="CharacterBody3D"]
+script = ExtResource("1_tx2j5")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_uuxef")
+skeleton = NodePath("../Camera")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.7, 0)
+script = ExtResource("2_xbtcc")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_fd36y")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.51796, 0)
+light_color = Color(0.984314, 1, 0.737255, 1)
+light_bake_mode = 0

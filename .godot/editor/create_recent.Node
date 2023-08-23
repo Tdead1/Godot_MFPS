@@ -1,1 +1,10 @@
+OmniLight3D
+WorldEnvironment
+ScatterShape
+DirectionalLight3D
+ProtonScatter
+MeshInstance3D
+CollisionShape3D
+Camera3D
+Terrain3D
 CharacterBody3D

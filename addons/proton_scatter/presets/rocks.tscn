@@ -1,0 +1,123 @@
+[gd_scene load_steps=20 format=3 uid="uid://c471i43jmm266"]
+
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter.gd" id="1_k7hva"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="2_nc5am"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="3_3ab60"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="4_yjpk1"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="5_g3de4"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="6_r7ptq"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_item.gd" id="7_ncsy4"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_shape.gd" id="8_dtsfh"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="9_yflfl"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/shapes/path_shape.gd" id="10_5a01a"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/common/physics_helper.gd" id="11_i5rmd"]
+
+[sub_resource type="Resource" id="Resource_63014"]
+script = ExtResource("3_3ab60")
+amount = 600
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_7vgxs"]
+script = ExtResource("4_yjpk1")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(360, 360, 360)
+scale = Vector3(0.5, 0.5, 0.5)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_ksi7t"]
+script = ExtResource("5_g3de4")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_0fnmc"]
+script = ExtResource("6_r7ptq")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 200.0
+ray_offset = 150.0
+remove_points_on_miss = true
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_s8dmt"]
+script = ExtResource("2_nc5am")
+stack = Array[Resource("res://addons/proton_scatter/src/modifiers/base_modifier.gd")]([SubResource("Resource_63014"), SubResource("Resource_7vgxs"), SubResource("Resource_ksi7t"), SubResource("Resource_0fnmc")])
+
+[sub_resource type="Resource" id="Resource_v0krh"]
+script = ExtResource("9_yflfl")
+radius = 100.0
+
+[sub_resource type="Curve3D" id="Curve3D_ov66i"]
+bake_interval = 3.0
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0.895, 0, 0, 0, 0, 0, 0, 0, -0.400673, 0, 25.3326, 0, 0, 0, 0, 0, 0, 41.1423, 0, 49.7188, 0, 0, 0, 0, 0, 0, 130.176, 0, 70.1252, 0, 0, 0, 0, 0, 0, 206.066, 0, 63.5197),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+up_vector_enabled = false
+
+[sub_resource type="Resource" id="Resource_bm3gc"]
+script = ExtResource("10_5a01a")
+closed = false
+thickness = 8.0
+curve = SubResource("Curve3D_ov66i")
+
+[node name="ProtonScatter" type="Node3D"]
+script = ExtResource("1_k7hva")
+global_seed = 18423
+render_mode = 1
+keep_static_colliders = true
+modifier_stack = SubResource("Resource_s8dmt")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+
+[node name="ScatterRock1" type="Node3D" parent="."]
+script = ExtResource("7_ncsy4")
+source_scale_multiplier = 0.4
+path = "res://terrain/scenes/Rock1.tscn"
+
+[node name="ScatterRock2" type="Node3D" parent="."]
+script = ExtResource("7_ncsy4")
+source_scale_multiplier = 0.5
+path = "res://terrain/scenes/Rock2.tscn"
+
+[node name="ScatterRock3" type="Node3D" parent="."]
+script = ExtResource("7_ncsy4")
+path = "res://terrain/scenes/Rock3.tscn"
+
+[node name="ScatterShape" type="Node3D" parent="."]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+script = ExtResource("8_dtsfh")
+shape = SubResource("Resource_v0krh")
+
+[node name="ScatterShape2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83.5728, 0, -25.1631)
+script = ExtResource("8_dtsfh")
+negative = true
+shape = SubResource("Resource_bm3gc")
+
+[node name="PhysicsHelper" type="Node" parent="."]
+script = ExtResource("11_i5rmd")
+
+[node name="ScatterOutput" type="Marker3D" parent="."]
